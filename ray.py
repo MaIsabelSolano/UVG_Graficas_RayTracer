@@ -1,4 +1,6 @@
+from turtle import back
 from lib import *
+from sphere import *
 from math import pi, tan
 
 class Raytracer(object):
@@ -7,15 +9,16 @@ class Raytracer(object):
         self.height = height
         self.filename = filename
         self.framebuffer = []
-        self.clear_color = color(0, 0, 0)
+        self.background_color = color(0, 0, 0)
         self.current_color = color(255, 255, 255)
-        
+        self.scene = []
+
         self.clear()
         self.write()
 
     def clear(self):
         self.framebuffer = [
-            [self.clear_color for x in range(self.width)]
+            [self.background_color for x in range(self.width)]
             for y in range(self.height)
         ]
         
@@ -50,8 +53,24 @@ class Raytracer(object):
                 self.point(x, y, c)
 
     def cast_ray(self, origin, direction):
+        material = self.scene_intersect(origin, direction)
+
+        if material:
+            return material.diffuse
+        else:
+            return self.background_color
+
+    def scene_intersect(self, origin, direction):
+        zBuffer = 999999
+        material = None
         
-        return color(255, 0, 0)
-    
+        for o in self.scene:
+            intersect = o.ray_intersect(origin, direction)
+            if intersect:
+                if intersect.distance < zBuffer:
+                    zBuffer = intersect.distance
+                    material = o.material
+            
+        return material
 
     
