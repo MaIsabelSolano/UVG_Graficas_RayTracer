@@ -24,8 +24,13 @@ class Sphere(object):
         if t0 < 0:
             t0 = t1
         if t0 < 0:
-            return None        
+            return None     
+
+        impact = origin + direction * t0
+        normal = (impact - self.center).normalize()
 
         return Intersect(
-            distance = t0
+            distance = t0,
+            point = impact,
+            normal = normal
         )

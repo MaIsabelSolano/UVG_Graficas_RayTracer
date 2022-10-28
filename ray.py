@@ -1,6 +1,9 @@
+import imp
 from turtle import back
 from lib import *
 from sphere import *
+from light import *
+from intersect import *
 from math import pi, tan
 
 class Raytracer(object):
@@ -12,6 +15,7 @@ class Raytracer(object):
         self.background_color = color(0, 0, 0)
         self.current_color = color(255, 255, 255)
         self.scene = []
+        self.light = Light(V3(0, 0, 0), 1)
 
         self.clear()
         self.write()
@@ -53,24 +57,37 @@ class Raytracer(object):
                 self.point(x, y, c)
 
     def cast_ray(self, origin, direction):
-        material = self.scene_intersect(origin, direction)
+        material, intersect = self.scene_intersect(origin, direction)
 
-        if material:
-            return material.diffuse
-        else:
+        if material is None:
             return self.background_color
+
+        light_dir = (self.light.position - intersect.point).normalize()
+        intensity = light_dir @ intersect.normal
+
+        deffuse = color(
+            # int(material.diffuse[2] * intensity),
+            # int(material.diffuse[1] * intensity),
+            # int(material.diffuse[0] * intensity)
+            int(material.diffuse[2]),
+            int(material.diffuse[1]),
+            int(material.diffuse[0])
+        )
+        return deffuse
 
     def scene_intersect(self, origin, direction):
         zBuffer = 999999
         material = None
+        intersect = None
         
         for o in self.scene:
-            intersect = o.ray_intersect(origin, direction)
-            if intersect:
-                if intersect.distance < zBuffer:
-                    zBuffer = intersect.distance
+            object_intersect = o.ray_intersect(origin, direction)
+            if object_intersect:
+                if object_intersect.distance < zBuffer:
+                    zBuffer = object_intersect.distance
                     material = o.material
+                    intersect = object_intersect
             
-        return material
+        return material, intersect
 
     
