@@ -1,4 +1,4 @@
-from material import Material
+from material import *
 from ray import *
 from vector import *
 from light import *
