@@ -4,6 +4,7 @@ from lib import *
 from sphere import *
 from light import *
 from intersect import *
+from color import *
 from math import pi, tan
 
 class Raytracer(object):
@@ -12,8 +13,8 @@ class Raytracer(object):
         self.height = height
         self.filename = filename
         self.framebuffer = []
-        self.background_color = color(0, 0, 0)
-        self.current_color = color(255, 255, 255)
+        self.background_color = Color(0, 0, 0)
+        self.current_color = Color(255, 255, 255)
         self.scene = []
         self.light = Light(V3(0, 0, 0), 1)
 
@@ -22,7 +23,7 @@ class Raytracer(object):
 
     def clear(self):
         self.framebuffer = [
-            [self.background_color for x in range(self.width)]
+            [self.background_color.toBytes() for x in range(self.width)]
             for y in range(self.height)
         ]
         
@@ -53,8 +54,8 @@ class Raytracer(object):
                 origin = V3(0, 0, 0)
 
                 c = self.cast_ray(origin, direction)
-
-                self.point(x, y, c)
+                
+                self.point(x, y, c.toBytes())
 
     def cast_ray(self, origin, direction):
         material, intersect = self.scene_intersect(origin, direction)
@@ -65,15 +66,7 @@ class Raytracer(object):
         light_dir = (self.light.position - intersect.point).normalize()
         intensity = light_dir @ intersect.normal
 
-        deffuse = color(
-            # int(material.diffuse[2] * intensity),
-            # int(material.diffuse[1] * intensity),
-            # int(material.diffuse[0] * intensity)
-            int(material.diffuse[2]),
-            int(material.diffuse[1]),
-            int(material.diffuse[0])
-        )
-        return deffuse
+        return material.diffuse * intensity
 
     def scene_intersect(self, origin, direction):
         zBuffer = 999999

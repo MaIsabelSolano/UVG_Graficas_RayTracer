@@ -2,12 +2,13 @@ from material import *
 from ray import *
 from vector import *
 from light import *
+from color import *
 
 r = Raytracer(800, 600, 'r.bmp')
 
 # Materials
-red = Material(diffuse = color(255, 0, 0))
-white = Material(diffuse = color(255, 255, 255))
+red = Material(diffuse = Color(255, 0, 0))
+white = Material(diffuse = Color(255, 255, 255))
 
 # Ilumination
 r.light = Light(V3(0, 0, 0), 1)

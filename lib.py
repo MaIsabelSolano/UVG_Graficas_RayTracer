@@ -1,6 +1,6 @@
-from re import X
 import struct
 from vector import *
+from color import *
 
 """ Estructuras necesarias para crear un archivo BMP """
 
@@ -19,8 +19,8 @@ def dword(d):
 """ Funciones necesarias """
 
 # clase color, recibe en rgb y lo retorna en bytes en el orden requerido
-def color(r, g, b):
-    return bytes([b, g, r])
+# def color(r, g, b):
+#     return bytes([b, g, r])
 
 def color_minmax(v):
     if (0 < v < 255):
@@ -32,12 +32,12 @@ def color_minmax(v):
 
 """ Colores pre-establecidos """
 
-BLACK = color(0, 0, 0)
-WHITE = color(255, 255, 255)
-RED = color(250, 0, 0)
-ORANGE = color( 200, 100, 0)
-BLUE = color(0, 0, 255)
-GREEN = color(0, 255, 0)
+BLACK = Color(0, 0, 0).toBytes()
+WHITE = Color(255, 255, 255).toBytes()
+RED = Color(250, 0, 0).toBytes()
+ORANGE = Color( 200, 100, 0).toBytes()
+BLUE = Color(0, 0, 255).toBytes()
+GREEN = Color(0, 255, 0).toBytes()
 
 def bounding_box(A, B, C):
     coords = [(A.x, A.y), (B.x, B.y), (C.x, C.y)]
