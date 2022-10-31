@@ -112,4 +112,30 @@ def writebmp(filename, w, h, fb):
 
     f.close()
 
+def reflect(I, N):
+    # Lm = I * N
+    # n = (2 * (Lm @ N))
+    return (I - (N * (2 * (I @ N)))).normalize()
+    # return (Lm - n).normalize()
 
+def refract(I, N, roi):
+    etai = 1
+    etat = roi
+
+    cosi = (I @ N) * -1
+
+    if (cosi < 0):
+        cosi *= -1
+        etai *= -1
+        etat *= -1
+        N *= -1
+
+    eta = etai/etat
+    k = 1 - eta **2 * (1 - cosi **2)
+
+    if k < 0:
+        return V3(0, 0, 0)
+
+    cost = k ** 0.5
+
+    return ((I * eta) + (N * (eta * cosi - cost))).normalize()

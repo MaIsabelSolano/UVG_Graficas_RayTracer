@@ -18,6 +18,7 @@ class V3(object):
             self.z - other.z
         )
 
+    # *
     def __mul__(self, other):
         if (type(other) == int or type(other) == float):
             return V3(
@@ -33,6 +34,7 @@ class V3(object):
                 self.x * other.y - self.y * other.x,
             )
 
+    # @
     def __matmul__(self, other):
         return self.x * other.x + self.y * other.y + self.z * other.z
 
@@ -94,3 +96,9 @@ class V4(object):
     def __repr__(self):
         return "V4(%s, %s, %s, %s)" % (self.x, self.y, self.z, self.w)
 
+
+# v1 = V3(1, 2, 3)
+# v2 = V3(3, 4, 5)
+
+# print(v1*v2) # cruz
+# print(v1@v2) # punto

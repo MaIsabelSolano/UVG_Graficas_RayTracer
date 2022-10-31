@@ -4,6 +4,15 @@ class Color(object):
         self.g = g 
         self.b = b 
 
+    def __add__(self, other):
+        
+        if (type(other) == Color):
+            r = self.r + other.r
+            g = self.g + other.g
+            b = self.b + other.b
+
+            return(Color(r, g, b))
+
     def __mul__(self, other):
 
         r = self.r
@@ -39,6 +48,22 @@ class Color(object):
         return Color(r, g, b)
 
     def toBytes(self):
+
+        if self.r < 0:
+            self.r = 0
+        if self.r > 255:
+            self.r = 255
+
+        if self.g < 0:
+            self.g = 0
+        if self.g > 255:
+            self.g = 255
+
+        if self.b < 0:
+            self.b = 0
+        if self.b > 255:
+            self.b = 255
+
         return bytes([
             int(self.b), 
             int(self.g), 
