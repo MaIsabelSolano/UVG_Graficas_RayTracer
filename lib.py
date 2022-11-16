@@ -115,7 +115,7 @@ def writebmp(filename, w, h, fb):
 def reflect(I, N):
     # Lm = I * N
     # n = (2 * (Lm @ N))
-    return (I - (N * (2 * (I @ N)))).normalize()
+    return (I - (N * (2 * (I @ N))))
     # return (Lm - n).normalize()
 
 def refract(I, N, roi):
