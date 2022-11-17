@@ -2,6 +2,7 @@ import imp
 from turtle import back
 from lib import *
 from sphere import *
+from plane import *
 from light import *
 from intersect import *
 from color import *
@@ -72,7 +73,7 @@ class Raytracer(object):
         ligth_distance = (self.light.position - intersect.point).length()
 
         # Other objects' shadows
-        shadow_bias = 1.1
+        shadow_bias = 0.5
         # shadow_orgin = intersect.point - (intersect.normal * shadow_bias) if light_dir @ intersect.normal < 0 else intersect.point + (intersect.normal * shadow_bias)
         shadow_orgin = intersect.point + (intersect.normal) * shadow_bias
         shadow_material, shadow_intersect = self.scene_intersect(shadow_orgin, light_dir)

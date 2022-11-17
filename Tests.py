@@ -25,6 +25,7 @@ r.scene = [
     Sphere(V3(1, 1, -8), 1.7, rubber),
     Sphere(V3(-2, 1, -10), 2, mirror),
     Sphere(V3(2, -0.9, -5.5), 1, ivory),
+    Plane(3, mirror )
 ]
 
 r.render()
