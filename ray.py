@@ -73,7 +73,8 @@ class Raytracer(object):
 
         # Other objects' shadows
         shadow_bias = 1.1
-        shadow_orgin = intersect.point - (intersect.normal * shadow_bias) if light_dir @ intersect.normal < 0 else intersect.point + (intersect.normal * shadow_bias)
+        # shadow_orgin = intersect.point - (intersect.normal * shadow_bias) if light_dir @ intersect.normal < 0 else intersect.point + (intersect.normal * shadow_bias)
+        shadow_orgin = intersect.point + (intersect.normal) * shadow_bias
         shadow_material, shadow_intersect = self.scene_intersect(shadow_orgin, light_dir)
         shadow_intensity = 0
 
@@ -90,9 +91,11 @@ class Raytracer(object):
 
         # Specular component ____
 
-        specular_reflection = reflect(light_dir, intersect.normal)
-        specular_intensity = self.light.intensity * max(0, -(specular_reflection @ direction))**material.spec
-        specular = self.light.c * specular_intensity * material.albedo[1]
+        specular = Color(0, 0, 0)
+        if shadow_intensity == 0:
+            specular_reflection = reflect(light_dir, intersect.normal)
+            specular_intensity = self.light.intensity * max(0, -(specular_reflection @ direction))**material.spec
+            specular = self.light.c * specular_intensity * material.albedo[1]
 
 
         # Object reflections ____

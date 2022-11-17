@@ -3,6 +3,7 @@ from ray import *
 from vector import *
 from light import *
 from color import *
+from plane import *
 
 r = Raytracer(800, 600, 'r.bmp')
 
@@ -15,14 +16,15 @@ mirror = Material(diffuse = Color(255, 255, 255), albedo = [0, 1, 0.8, 0],     s
 glass =  Material(diffuse = Color(150, 180, 200), albedo = [0, 0.5, 0.1, 0.8], spec = 125,  refractive_index = 1.5)
 
 # Ilumination
-r.light = Light(V3(-20, 0, 20), 1, Color(255, 255, 255))
+r.light = Light(V3(-10, 10, 1), 1, Color(255, 255, 255))
 
 # Objects 
 r.scene = [
-    Sphere(V3(0, -1.5, -10), 1.5, ivory),
-    Sphere(V3(0, 0, -6), 0.5, glass),
+    Sphere(V3(0, -1.5, -11), 1.5, ivory),
+    Sphere(V3(-0.25, 0, -6), 0.5, glass),
     Sphere(V3(1, 1, -8), 1.7, rubber),
     Sphere(V3(-2, 1, -10), 2, mirror),
+    Sphere(V3(2, -0.9, -5.5), 1, ivory),
 ]
 
 r.render()
