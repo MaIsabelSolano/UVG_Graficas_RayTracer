@@ -13,7 +13,7 @@ class Raytracer(object):
         self.height = height
         self.filename = filename
         self.framebuffer = []
-        self.background_color = Color(10, 10, 10)
+        self.background_color = Color(50, 50, 50)
         self.current_color = Color(255, 255, 255)
         self.scene = []
         self.light = Light(V3(0, 0, 0), 1)
@@ -81,38 +81,42 @@ class Raytracer(object):
             # Something is generating a shadow over the object
             shadow_intensity = 0.3
 
-        # Difusse component
+
+        # Difusse component ____
 
         diffuse_intensity = self.light.intensity * (light_dir @ intersect.normal)
         diffuse = material.diffuse * diffuse_intensity * material.albedo[0] * (1 - shadow_intensity)
 
-        # Specular component
-        light_reflection = reflect(light_dir, intersect.normal)
-        reflection_intensity = max(0, light_reflection @ direction)
 
-        specular = Color(0, 0, 0)
-        if (shadow_intensity == 0):
-            # Specular light is not shown while an object is generating a shadow over the object
-            specular_intensity = self.light.intensity * reflection_intensity **material.spec
-            specular = self.light.c * specular_intensity * material.albedo[1]
+        # Specular component ____
 
-        # Object reflections
+        specular_reflection = reflect(light_dir, intersect.normal)
+        specular_intensity = self.light.intensity * max(0, -(specular_reflection @ direction))**material.spec
+        specular = self.light.c * specular_intensity * material.albedo[1]
+
+
+        # Object reflections ____
+
         reflect_color = Color(0, 0, 0)
-        # if (material.albedo[2] > 0):
-        #     reverse_direction = direction * -1
-        #     reflect_direction = reflect(reverse_direction, intersect.normal)
-        #     reflect_bias = -0.5 if reflect_direction @ intersect.normal < 0 else 0.5
-        #     reflect_origin = intersect.point + (intersect.normal * reflect_bias)
-        #     reflect_color = self.cast_ray(reflect_origin, reflect_direction, recursion + 1)
+        if (material.albedo[2] > 0):
+            reverse_direction = direction * -1
+            reflect_direction = reflect(reverse_direction, intersect.normal)
+            # reflect_bias = -0.5 if reflect_direction @ intersect.normal < 0 else 0.5
+            # reflect_origin = intersect.point + (intersect.normal * reflect_bias)
+            reflect_origin = intersect.point - (intersect.normal * 1.1) if reflect_direction @ intersect.normal < 0 else intersect.point + (intersect.normal * 1.1)
+            reflect_color = self.cast_ray(reflect_origin, reflect_direction, recursion + 1)
 
         reflection = reflect_color * material.albedo[2]
 
-        # Object reflections
+
+        # Object reflections ____
+
         refract_color = Color(0, 0, 0)
         if (material.albedo[3] > 0):
             refract_direction = refract(direction, intersect.normal, material.refractive_index)
-            refract_bias = 0.5 if refract_direction @ intersect.normal < 0 else -0.5
-            refract_origin = intersect.point + (intersect.normal * refract_bias)
+            # refract_bias = 0.5 if refract_direction @ intersect.normal < 0 else -0.5
+            # refract_origin = intersect.point + (intersect.normal * refract_bias)
+            refract_origin = intersect.point - (intersect.normal * 1.1) if refract_direction @ intersect.normal < 0 else intersect.point + (intersect.normal * 1.1)
             refract_color = self.cast_ray(refract_origin, refract_direction, recursion + 1)
 
         refraction = refract_color * material.albedo[3]
