@@ -6,10 +6,11 @@ from plane import *
 from light import *
 from intersect import *
 from color import *
+from envmap import *
 from math import pi, tan
 
 class Raytracer(object):
-    def __init__(self, width, height, filename):
+    def __init__(self, width, height, filename, envfile = None):
         self.width = width
         self.height = height
         self.filename = filename
@@ -21,6 +22,12 @@ class Raytracer(object):
         self.MAX_RECURSION_DEPTH = 2
 
         self.clear()
+
+        if envfile:
+            self.envmap = Envmap(envfile)
+        else:
+            self.envmap = None
+
         self.write()
 
     def clear(self):
@@ -62,11 +69,18 @@ class Raytracer(object):
     def cast_ray(self, origin, direction, recursion = 0):
 
         if (recursion >= self.MAX_RECURSION_DEPTH):
+            if self.envmap:
+                # print('entra a lo de envmap')
+                return self.envmap.get_color(direction)
             return self.background_color
 
         material, intersect = self.scene_intersect(origin, direction)
 
         if (material is None):
+            if self.envmap:
+                # print('entra a lo de envmap')
+                # print('self.envmap.get_color(direction)')
+                return self.envmap.get_color(direction)
             return self.background_color
 
         light_dir = (self.light.position - intersect.point).normalize()
