@@ -4,8 +4,9 @@ from vector import *
 from light import *
 from color import *
 from plane import *
+from cube import *
 
-r = Raytracer(800, 600, 'r.bmp', './envmap.bmp')
+r = Raytracer(800, 600, 'r.bmp', './galaxy.bmp')
 
 # Materials
 red =    Material(diffuse = Color(255, 0, 0))
@@ -26,6 +27,7 @@ r.scene = [
     Sphere(V3(-2, 1, -10), 2, mirror),
     Sphere(V3(2, -0.9, -5.5), 1, ivory),
     #Plane(V3(0, 3.5, 0), V3(0, 1, 0), mirror)
+    Cube(V3(3, 2, -5), V3(2, 1, 1), rubber)
 ]
 
 r.render()
