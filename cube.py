@@ -59,19 +59,19 @@ class Cube(object):
                                 t = planeInter.distance
                                 intersect = planeInter
 
-                                # u, v = 0, 0
+                                u, v = 0, 0
 
-                                # if abs(plane.normal[0]) > 0:
-                                #     u = (planeInter.point[1] - self.boundsMin[1]) / (self.boundsMax[1] - self.boundsMin[1])
-                                #     v = (planeInter.point[2] - self.boundsMin[2]) / (self.boundsMax[2] - self.boundsMin[2])
+                                if abs(plane.normal.x) > 0:
+                                    u = (planeInter.point.y - self.boundsMin[1]) / (self.boundsMax[1] - self.boundsMin[1])
+                                    v = (planeInter.point.x - self.boundsMin[2]) / (self.boundsMax[2] - self.boundsMin[2])
 
-                                # elif abs(plane.normal[1]) > 0:
-                                #     u = (planeInter.point[0] - self.boundsMin[0]) / (self.boundsMax[0] - self.boundsMin[0])
-                                #     v = (planeInter.point[2] - self.boundsMin[2]) / (self.boundsMax[2] - self.boundsMin[2])
+                                elif abs(plane.normal.y) > 0:
+                                    u = (planeInter.point.x - self.boundsMin[0]) / (self.boundsMax[0] - self.boundsMin[0])
+                                    v = (planeInter.point.z - self.boundsMin[2]) / (self.boundsMax[2] - self.boundsMin[2])
 
-                                # elif abs(plane.normal[2]) > 0:
-                                #     u = (planeInter.point[0] - self.boundsMin[0]) / (self.boundsMax[0] - self.boundsMin[0])
-                                #     v = (planeInter.point[1] - self.boundsMin[1]) / (self.boundsMax[1] - self.boundsMin[1])
+                                elif abs(plane.normal.z) > 0:
+                                    u = (planeInter.point.x - self.boundsMin[0]) / (self.boundsMax[0] - self.boundsMin[0])
+                                    v = (planeInter.point.y - self.boundsMin[1]) / (self.boundsMax[1] - self.boundsMin[1])
 
         if intersect is None:
             return
@@ -79,7 +79,8 @@ class Cube(object):
         return Intersect(
             distance = intersect.distance,
             point = intersect.point,
-            normal = intersect.normal
+            normal = intersect.normal,
+            tcoords = (u, v)
         )
 
     def addToPlanes(self, planes):

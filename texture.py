@@ -34,10 +34,24 @@ class Texture(object):
                     )
 
     def get_color(self, tx, ty):
+        if ty >= 1:
+            ty -= 1
+
         x = round(tx * self.width)
         y = round(ty * self.height)
 
-        return self.pixels[y][x]
+        p_color = Color(0, 0, 0)
+        
+        if (y < len(self.pixels)):
+            if (x < len(self.pixels[y])):
+                b = round(self.pixels[y][x].r)
+                g = round(self.pixels[y][x].g)
+                r = round(self.pixels[y][x].b)
+
+                p_color = Color(r, g, b)
+
+        return p_color
+
 
     def color_minmax_r(self, value):
         if (0 <= value <= 255 ):
@@ -72,49 +86,5 @@ class Texture(object):
                 r = round(self.pixels[y][x][2] * intensidad)
 
                 p_color = Color(r, g, b)
-
-        return p_color
-
-    def get_color_pastel(self, tx, ty, intensidad = 0, c = None):
-        
-        if ty >= 1:
-            ty -= 1
-
-        x = round(tx * self.width)
-        y = round(ty * self.height)
-
-        p_color = Color(0, 0, 0)
-
-        if (intensidad < 0.35):
-        
-            if (y < len(self.pixels)):
-                if (x < len(self.pixels[y])):
-                    r = round(self.pixels[y][x][2])
-                    g = round(self.pixels[y][x][1])
-                    b = round(self.pixels[y][x][0])
-
-                    r_2 = 200
-                    g_2 = 230
-                    b_2 = 200
-
-                    r_n = self.color_minmax_r(((b * g_2) - (g * b_2)))
-                    g_n = self.color_minmax_r(((r * b_2) - (b * r_2)))
-                    b_n = self.color_minmax_r(((g * r_2) - (r * g_2)))
-
-                    r_n = self.color_minmax_r((r - (r_n / 8)))
-                    g_n = self.color_minmax_r((g - (g_n / 8)))
-                    b_n = self.color_minmax_r((b - (b_n / 8)))
-
-                    p_color = Color(r_n, g_n, b_n)
-
-        else:
-            if (y < len(self.pixels)):
-                if (x < len(self.pixels[y])):
-                    b = round(self.pixels[y][x][0])
-                    g = round(self.pixels[y][x][1])
-                    r = round(self.pixels[y][x][2])
-
-                    p_color = Color(r, g, b)
-
 
         return p_color

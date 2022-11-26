@@ -7,6 +7,7 @@ from light import *
 from intersect import *
 from color import *
 from envmap import *
+from texture import *
 from math import pi, tan
 
 class Raytracer(object):
@@ -103,6 +104,11 @@ class Raytracer(object):
         diffuse_intensity = self.light.intensity * (light_dir @ intersect.normal)
         diffuse = material.diffuse * diffuse_intensity * material.albedo[0] * (1 - shadow_intensity)
 
+        if material.texture is not None:
+            # has texture
+            tex = material.texture
+            t_color = tex.get_color(intersect.tcoords[0], intersect.tcoords[1])
+            diffuse = t_color * diffuse_intensity * material.albedo[0] * (1 - shadow_intensity)
 
         # Specular component ____
 

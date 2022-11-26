@@ -15,6 +15,8 @@ ivory =  Material(diffuse = Color(200, 200, 180), albedo = [0.6, 0.3, 0, 0],   s
 rubber = Material(diffuse = Color(180, 0, 0),     albedo = [0.9, 0.1, 0.1, 0], spec = 50)
 mirror = Material(diffuse = Color(255, 255, 255), albedo = [0, 1, 0.8, 0],     spec = 1425)
 glass =  Material(diffuse = Color(150, 180, 200), albedo = [0, 0.5, 0.1, 0.8], spec = 125,  refractive_index = 1.5)
+grass = Material(diffuse = Color(180, 0, 0),     albedo = [0.9, 0.1, 0.1, 0], spec = 50, texture = './grass.bmp')
+
 
 # Ilumination
 r.light = Light(V3(10, -13, 4), 1, Color(255, 255, 255))
@@ -27,7 +29,7 @@ r.scene = [
     Sphere(V3(-2, 1, -10), 2, mirror),
     Sphere(V3(2, -0.9, -5.5), 1, ivory),
     #Plane(V3(0, 3.5, 0), V3(0, 1, 0), mirror)
-    Cube(V3(3, 2, -5), V3(2, 1, 1), rubber)
+    Cube(V3(3, 2, -5), V3(2, 1, 1), grass)
 ]
 
 r.render()
