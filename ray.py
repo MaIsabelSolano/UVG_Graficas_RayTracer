@@ -20,7 +20,7 @@ class Raytracer(object):
         self.current_color = Color(255, 255, 255)
         self.scene = []
         self.light = Light(V3(0, 0, 0), 1)
-        self.MAX_RECURSION_DEPTH = 2
+        self.MAX_RECURSION_DEPTH = 1
 
         self.clear()
 
@@ -96,7 +96,7 @@ class Raytracer(object):
 
         if shadow_material and (shadow_intersect.point - shadow_orgin).length() < ligth_distance:
             # Something is generating a shadow over the object
-            shadow_intensity = 0.3
+            shadow_intensity = 0.01
 
 
         # Difusse component ____

@@ -8,5 +8,3 @@ class Material:
         self.refractive_index = refractive_index
         self.texture = texture
 
-        if texture is not None:
-            self.texture = Texture(texture)
