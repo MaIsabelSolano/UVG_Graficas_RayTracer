@@ -122,6 +122,9 @@ r.scene = [
     Cube(V3(3, 2, -11), V3(1, 1, 1), grass),
     Cube(V3(4, 2, -11), V3(1, 1, 1), grass),
     Cube(V3(5, 2, -11), V3(1, 1, 1), grass),
+
+    Cube(V3(0, 0, -13), V3(3, 4, 1), grass),
+
     Cube(V3(6, 2, -11), V3(1, 1, 1), sand),
 
     Cube(V3(7, 2, -11), V3(1, 1, 1), sand),
